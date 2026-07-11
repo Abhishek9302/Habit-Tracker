@@ -1,0 +1,13 @@
+node_modules/
+dist/
+build/
+.next/
+out/
+.env
+.env.local
+*.log
+
+# Zero-Human required ignores
+.kimi-code-home/
+.kimi-code/
+.kimi-code-skills/
