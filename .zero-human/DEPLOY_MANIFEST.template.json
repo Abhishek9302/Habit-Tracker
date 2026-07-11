@@ -1,0 +1,58 @@
+{
+  "$schema": "zero-human/deploy-manifest@1",
+  "appType": "fullstack",
+  "monorepoStructure": {
+    "frontend": "apps/frontend",
+    "backend": "apps/backend",
+    "database": "database"
+  },
+  "frontend": {
+    "framework": "nextjs",
+    "dir": "apps/frontend",
+    "apiBaseEnvVar": "NEXT_PUBLIC_API_URL",
+    "requiredFiles": [
+      "apps/frontend/package.json",
+      "apps/frontend/next.config.js",
+      "apps/frontend/tsconfig.json",
+      "apps/frontend/railway.toml",
+      "apps/frontend/src/app/layout.tsx",
+      "apps/frontend/src/app/page.tsx"
+    ]
+  },
+  "backend": {
+    "framework": "express",
+    "dir": "apps/backend",
+    "portEnvVar": "PORT",
+    "databaseUrlEnvVar": "DATABASE_URL",
+    "requiredFiles": [
+      "apps/backend/package.json",
+      "apps/backend/tsconfig.json",
+      "apps/backend/railway.toml",
+      "apps/backend/src/index.ts",
+      "apps/backend/src/db.ts"
+    ],
+    "requiredRoutes": [
+      "GET /health"
+    ],
+    "routeMounts": [
+      {
+        "mount": "/health",
+        "file": "apps/backend/src/routes/health.ts",
+        "handlers": [
+          "GET /"
+        ]
+      }
+    ],
+    "$commentRouteMounts": "Add one routeMounts entry per Express router file you create, listing every leaf handler as \"METHOD /path-relative-to-mount\". requiredRoutes must list the full METHOD + path for every endpoint the feature needs, and every route you list must be implemented by a file in requiredFiles."
+  },
+  "database": {
+    "engine": "postgresql",
+    "schemaFile": "database/schema.sql",
+    "requiredTables": []
+  },
+  "storage": {
+    "usesS3": false,
+    "bucketEnvVar": "S3_BUCKET",
+    "regionEnvVar": "S3_REGION"
+  }
+}
