@@ -4,8 +4,8 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
-    "start": "next start"
+    "build": "next build && S=$(dirname $(find .next/standalone -maxdepth 4 -name server.js | head -1)) && (test -d public && cp -r public \"$S/\" || true) && mkdir -p \"$S/.next\" && cp -r .next/static \"$S/.next/\"",
+    "start": "node $(find .next/standalone -maxdepth 4 -name server.js | head -1)"
   },
   "dependencies": {
     "next": "^14.2.35",
